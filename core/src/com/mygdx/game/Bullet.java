@@ -22,19 +22,22 @@ public class Bullet {
     }
 
 
-    public boolean move(Array<Asteroid>arr){
+    public boolean[] move(Array<Asteroid>arr){
         x += (float)Math.cos(angle) * velocity * Gdx.graphics.getDeltaTime();
         y += (float)Math.sin(angle) * velocity *  Gdx.graphics.getDeltaTime();
         for (Iterator<Asteroid> iter = arr.iterator(); iter.hasNext(); ) {
             Asteroid met = iter.next();
             if(Math.sqrt((x - met.x) * (x - met.x) + (y - met.y) * (y - met.y)) <= 20 + met.radius) {
-                if(met.color.equals(color)) iter.remove();
+                if(met.color.equals(color)){
+                    iter.remove();
+                    return new boolean[]{true, true};
+                }
                 dead = true;
-                return true;
+                return new boolean[]{true, false};
             }
         }
 
-        return false;
+        return new boolean[]{false, false};
     }
 
     public boolean isDead() {
